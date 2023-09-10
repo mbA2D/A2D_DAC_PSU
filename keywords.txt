@@ -1,0 +1,3 @@
+A2D_DAC_PSU					KEYWORD1
+init						KEYWORD2
+reset						KEYWORD2
