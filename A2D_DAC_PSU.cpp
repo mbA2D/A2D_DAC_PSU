@@ -27,8 +27,8 @@ A2D_DAC_PSU::A2D_DAC_PSU()
 	
 	_i_scaling = A2D_DAC_PSU_I_DEFAULT_SCALING;
 	_v_scaling = A2D_DAC_PSU_V_DEFAULT_SCALING;
-	_v_offset = A2D_DAC_PSU_I_DEFAULT_OFFSET;
-	_i_offset = A2D_DAC_PSU_V_DEFAULT_OFFSET;
+	_v_offset = A2D_DAC_PSU_V_DEFAULT_OFFSET;
+	_i_offset = A2D_DAC_PSU_I_DEFAULT_OFFSET;
 	
 	_ee_addr_initialized = 50; //1
 	_ee_addr_serial = _ee_addr_initialized + sizeof(uint8_t); //4
@@ -50,6 +50,8 @@ void A2D_DAC_PSU::init()
 	
 	//calibrate DAC - TODO
 	
+	
+	_init_cal_from_eeprom();
 }
 
 void A2D_DAC_PSU::enable_eload()
@@ -74,7 +76,6 @@ void A2D_DAC_PSU::disable_psu()
 	digitalWrite(A2D_DAC_PSU_PSU_EN_PIN, !A2D_DAC_PSU_PSU_EN);
 }
 
-
 void A2D_DAC_PSU::reset()
 {
 	disable_eload();
@@ -96,7 +97,6 @@ void A2D_DAC_PSU::set_voltage(float value)
 {
 	_dac->set_dac_b((value - _v_offset)/_v_scaling);
 }
-
 
 /*
 void A2D_DAC_PSU::calibrate_current(float p1_meas, float p1_act, float p2_meas, float p2_act)
@@ -120,6 +120,7 @@ void A2D_DAC_PSU::calibrate_voltage(float p1_meas, float p1_act, float p2_meas, 
 	EEPROM.put(_ee_addr_v_off, _v_offset);
 	EEPROM.put(_ee_addr_v_scale, _v_scaling);
 }
+*/
 
 void A2D_DAC_PSU::_init_cal_from_eeprom()
 {
@@ -139,32 +140,24 @@ void A2D_DAC_PSU::reset_calibration()
 
 void A2D_DAC_PSU::reset_voltage_calibration()
 {
-	_v_offset = 0;
-	_v_scaling = A2D_DAC_PSU_V_SCALING;
-	
-	EEPROM.put(_ee_addr_v_off, _v_offset);
-	EEPROM.put(_ee_addr_v_scale, _v_scaling);
+	_v_offset = A2D_DAC_PSU_V_DEFAULT_OFFSET;
+	_v_scaling = A2D_DAC_PSU_V_DEFAULT_SCALING;
 }
 
 void A2D_DAC_PSU::reset_current_calibration()
 {
-	_i_offset = 0;
-	_i_scaling = A2D_DAC_PSU_I_SCALING;
+	_i_offset = A2D_DAC_PSU_I_DEFAULT_OFFSET;
+	_i_scaling = A2D_DAC_PSU_I_DEFAULT_SCALING;
+}
+
+void A2D_DAC_PSU::save_calibration()
+{
+	EEPROM.put(_ee_addr_v_off, _v_offset);
+	EEPROM.put(_ee_addr_v_scale, _v_scaling);
 	
 	EEPROM.put(_ee_addr_i_off, _i_offset);
 	EEPROM.put(_ee_addr_i_scale, _i_scaling);
 }
-
-*/
-
-void A2D_DAC_PSU::reset_calibration()
-{
-	_i_scaling = A2D_DAC_PSU_I_DEFAULT_SCALING;
-	_v_scaling = A2D_DAC_PSU_V_DEFAULT_SCALING;
-	_v_offset = A2D_DAC_PSU_I_DEFAULT_OFFSET;
-	_i_offset = A2D_DAC_PSU_V_DEFAULT_OFFSET;
-}
-
 
 void A2D_DAC_PSU::set_led(bool state)
 {

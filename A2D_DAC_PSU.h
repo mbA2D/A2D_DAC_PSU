@@ -42,7 +42,9 @@ class A2D_DAC_PSU
 
 	private:
 		//************METHODS****************
-		
+		void reset_current_calibration();
+		void reset_voltage_calibration();
+		void _init_cal_from_eeprom();
 		
 		//*********VARIABLES/CLASSES*********
 
