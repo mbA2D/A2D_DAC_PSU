@@ -23,7 +23,14 @@ void setup() {
 	delay(2000);
 	
 	sense_board.reset_calibration(); //must reset calibration to default before recalibrating so we know the values.
-	
+	Serial.print("v_scaling:")
+	Serial.print(sense_board._v_scaling)
+	Serial.print("  v_offset:")
+	Serial.print(sense_board._v_offset)
+	Serial.print("  i_scaling:")
+	Serial.print(sense_board._i_scaling)
+	Serial.print("  i_offset:")
+	Serial.println(sense_board._i_offset)
 	
 	//the ADC's offset is calibrated separately from the voltage and current offsets
 	//It does not matter if anything is connected at this point. The ADC's internal mux disconnects the inputs.
@@ -33,7 +40,10 @@ void setup() {
 	while (Serial.available()==0){}
 	float v_1_act = Serial.parseFloat();
 	Serial.println(v_1_act);
-	float v_1_meas = sense_board.measure_voltage() / A2D_SENSE_BOARD_V_SCALING + A2D_SENSE_BOARD_DEFAULT_V_OFFSET; //invert calibration to raw adc val
+	float v_1_meas = sense_board.measure_voltage();
+	Serial.println(v_1_meas);
+	v_1_meas = v_1_meas / A2D_SENSE_BOARD_V_SCALING + A2D_SENSE_BOARD_DEFAULT_V_OFFSET; //invert calibration to raw adc val
+	Serial.println(v_1_meas);
 	while (Serial.available()){Serial.read();}
 	Serial.println("Measurement complete. Remove the short.");
 	
@@ -41,20 +51,27 @@ void setup() {
 	while (Serial.available()==0){}
 	float v_2_act = Serial.parseFloat();
 	Serial.println(v_2_act);
-	float v_2_meas = sense_board.measure_voltage() / A2D_SENSE_BOARD_V_SCALING + A2D_SENSE_BOARD_DEFAULT_V_OFFSET; //invert calibration to raw adc val
+	float v_2_meas = sense_board.measure_voltage();
+	Serial.println(v_2_meas);
+	v_2_meas = v2_meas / A2D_SENSE_BOARD_V_SCALING + A2D_SENSE_BOARD_DEFAULT_V_OFFSET; //invert calibration to raw adc val
+	Serial.println(v_2_meas);
 	while (Serial.available()){Serial.read();}
 	Serial.println("Measurement complete. Remove the voltage source.");
 	
 	//Calculate the new calibration and store it in EEPROM
 	sense_board.calibrate_voltage(v_1_meas, v_1_act, v_2_meas, v_2_act);
 	Serial.println("Voltage calibration complete.");
+	
 	Serial.println();
 	
 	Serial.println("Ensure no current is flowing through the board. Enter the current (should be 0) when complete.");
 	while (Serial.available()==0){}
 	float i_1_act = Serial.parseFloat();
 	Serial.println(i_1_act);
-	float i_1_meas = sense_board.measure_current() / A2D_SENSE_BOARD_I_SCALING + A2D_SENSE_BOARD_DEFAULT_I_OFFSET; //invert calibration to raw adc val
+	float i_1_meas = sense_board.measure_current();
+	Serial.println(i_1_meas);
+	i_1_meas = i_1_meas / A2D_SENSE_BOARD_I_SCALING + A2D_SENSE_BOARD_DEFAULT_I_OFFSET; //invert calibration to raw adc val
+	Serial.println(i_1_meas);
 	while (Serial.available()){Serial.read();}
 	Serial.println("Measurement complete.");
 	
@@ -62,7 +79,10 @@ void setup() {
 	while (Serial.available()==0){}
 	float i_2_act = Serial.parseFloat();
 	Serial.println(i_2_act);
-	float i_2_meas = sense_board.measure_current() / A2D_SENSE_BOARD_I_SCALING + A2D_SENSE_BOARD_DEFAULT_I_OFFSET; //invert calibration to raw adc val
+	float i_2_meas = sense_board.measure_current();
+	Serial.println(i_2_act);
+	i_2_meas = i_2_meas / A2D_SENSE_BOARD_I_SCALING + A2D_SENSE_BOARD_DEFAULT_I_OFFSET; //invert calibration to raw adc val
+	Serial.println(i_2_act);
 	while (Serial.available()){Serial.read();}
 	Serial.println("Measurement complete. Stop the current flow.");
 	
@@ -73,6 +93,15 @@ void setup() {
 	
 	//The calibration will be loaded from EEPROM in sense_board.init()
 	sense_board.save_calibration();
+	
+	Serial.print("v_scaling:")
+	Serial.print(sense_board._v_scaling)
+	Serial.print("  v_offset:")
+	Serial.print(sense_board._v_offset)
+	Serial.print("  i_scaling:")
+	Serial.print(sense_board._i_scaling)
+	Serial.print("  i_offset:")
+	Serial.println(sense_board._i_offset)
 }
 
 void loop() {
