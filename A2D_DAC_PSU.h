@@ -39,6 +39,7 @@ class A2D_DAC_PSU
 		void set_dac_i2c_addr(uint8_t addr);
 		
 		void reset_calibration();
+		void save_calibration();
 
 	private:
 		//************METHODS****************
