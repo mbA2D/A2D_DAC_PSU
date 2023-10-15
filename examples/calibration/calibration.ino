@@ -80,9 +80,9 @@ void setup() {
 	float i_2_act = Serial.parseFloat();
 	Serial.println(i_2_act);
 	float i_2_meas = sense_board.measure_current();
-	Serial.println(i_2_act);
+	Serial.println(i_2_meas);
 	i_2_meas = i_2_meas / A2D_SENSE_BOARD_I_SCALING + A2D_SENSE_BOARD_DEFAULT_I_OFFSET; //invert calibration to raw adc val
-	Serial.println(i_2_act);
+	Serial.println(i_2_meas);
 	while (Serial.available()){Serial.read();}
 	Serial.println("Measurement complete. Stop the current flow.");
 	
