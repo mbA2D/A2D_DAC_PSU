@@ -23,14 +23,14 @@ void setup() {
 	delay(2000);
 	
 	sense_board.reset_calibration(); //must reset calibration to default before recalibrating so we know the values.
-	Serial.print("v_scaling:")
-	Serial.print(sense_board._v_scaling)
-	Serial.print("  v_offset:")
-	Serial.print(sense_board._v_offset)
-	Serial.print("  i_scaling:")
-	Serial.print(sense_board._i_scaling)
-	Serial.print("  i_offset:")
-	Serial.println(sense_board._i_offset)
+	Serial.print("v_scaling:");
+	Serial.print(sense_board._v_scaling);
+	Serial.print("  v_offset:");
+	Serial.print(sense_board._v_offset);
+	Serial.print("  i_scaling:");
+	Serial.print(sense_board._i_scaling);
+	Serial.print("  i_offset:");
+	Serial.println(sense_board._i_offset);
 	
 	//the ADC's offset is calibrated separately from the voltage and current offsets
 	//It does not matter if anything is connected at this point. The ADC's internal mux disconnects the inputs.
@@ -53,7 +53,7 @@ void setup() {
 	Serial.println(v_2_act);
 	float v_2_meas = sense_board.measure_voltage();
 	Serial.println(v_2_meas);
-	v_2_meas = v2_meas / A2D_SENSE_BOARD_V_SCALING + A2D_SENSE_BOARD_DEFAULT_V_OFFSET; //invert calibration to raw adc val
+	v_2_meas = v_2_meas / A2D_SENSE_BOARD_V_SCALING + A2D_SENSE_BOARD_DEFAULT_V_OFFSET; //invert calibration to raw adc val
 	Serial.println(v_2_meas);
 	while (Serial.available()){Serial.read();}
 	Serial.println("Measurement complete. Remove the voltage source.");
@@ -94,14 +94,14 @@ void setup() {
 	//The calibration will be loaded from EEPROM in sense_board.init()
 	sense_board.save_calibration();
 	
-	Serial.print("v_scaling:")
-	Serial.print(sense_board._v_scaling)
-	Serial.print("  v_offset:")
-	Serial.print(sense_board._v_offset)
-	Serial.print("  i_scaling:")
-	Serial.print(sense_board._i_scaling)
-	Serial.print("  i_offset:")
-	Serial.println(sense_board._i_offset)
+	Serial.print("v_scaling:");
+	Serial.print(sense_board._v_scaling);
+	Serial.print("  v_offset:");
+	Serial.print(sense_board._v_offset);
+	Serial.print("  i_scaling:");
+	Serial.print(sense_board._i_scaling);
+	Serial.print("  i_offset:");
+	Serial.println(sense_board._i_offset);
 }
 
 void loop() {
