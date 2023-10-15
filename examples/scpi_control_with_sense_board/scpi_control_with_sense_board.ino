@@ -171,19 +171,19 @@ void loop() {
   
   //MEAS:VOLT:DC?
   else if (CMDIS(command, "MEAS:VOLT:DC?")){
-	Serial.println(sense_board.measure_voltage());
+	Serial.println(sense_board.measure_voltage(), 4);
 	Serial.flush();
   }
 
   //MEAS:CURR:DC?
   else if (CMDIS(command, "MEAS:CURR:DC?")){
-	Serial.println(sense_board.measure_current());
+	Serial.println(sense_board.measure_current(), 4);
 	Serial.flush();
   }
 
   //MEAS:TEMP_C?
   else if (CMDIS(command, "MEAS:TEMP_C?")){
-	Serial.println(sense_board.measure_temperature());
+	Serial.println(sense_board.measure_temperature(), 4);
 	Serial.flush();
   }
   
